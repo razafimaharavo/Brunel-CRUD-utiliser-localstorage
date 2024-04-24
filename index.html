@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestion des données json</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+    <link rel="stylesheet" href="style.css">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/w3.css" rel="stylesheet">
+</head>
+<body>
+    <div id="app">
+
+        <button onclick="document.getElementById('AjoutDonneeModal').style.display='block'" style="position: fixed; top: 36pc; left: 78pc;" class="w3-button w3-circle w3-teal w3-xlarge">+</button>
+        <div class="container"></div>
+            <div class="row justify-content-center">
+                <div class="col-md-9" style="background-color: transparent;">
+                    <div class="w3-card-4">
+
+                            <h1 class="Sorabe">Liste des données à traiter</h1>
+                             <div class="form_div">
+                                <input class="input_searchko" type="text" v-model="searchQuery" placeholder="">
+                                <label for="newName" class="form_label">Rechercher ...</label>
+                            </div>
+                            
+                            <table class="table table-striped table-inverse table-responsive">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Nom</th>
+                                        <th>Email</th>
+                                        <th>Devise</th>
+                                        <th>Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <!-- Utilise des directives Vue.js pour afficher les données 
+                                            j'ai utilisé des inputs pour améliorer le modification directement dans le tableau-->
+                                    <tr v-for="item in filteredItems" :key="item.id">
+                                        <td>{{ item.id }}</td>
+                                        <td>
+                                            <input class="input_table" type="text" v-model="item.name" @focus="startEditing(item)">
+                                        </td>
+                                        <td>
+                                            <input class="input_table" type="text" v-model="item.email" @focus="startEditing(item)">
+                                        </td>
+                                        <td>
+                                            <input class="input_table" type="text" v-model="item.devise" @focus="startEditing(item)">
+                                        </td>
+                                        <td>
+                                            <button @click="saveChanges(item)" :disabled="item.id !== editingId" class="btnEnregistre w3-round-large">Enregistrer</button>
+                                            <button @click="confirmDelete(item)"  class="btn btn-danger">Supprimer</button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                    </div>
+
+                    <!-- Ajout donneée par my  Modal -->
+                    <div id="AjoutDonneeModal" class="w3-modal">
+                        <div class="w3-modal-content w3-animate-zoom w3-round-xlarge" style="width: 500px">
+                            <div class="w3-container w3-black w3-display-container" style="background: linear-gradient(to bottom right, #000000 0%, #66ccff 100%); text-align:center">
+                                <button  onclick="document.getElementById('AjoutDonneeModal').style.display='none'" class="w3-button w3-display-topright w3-large">x</button>
+                                <div class="card-header"> <h2>Ajouter de nouvelles données</h2></div><hr>
+                            </div>
+                            <div>
+                                <div class="card-body w3-padding-xlarge">
+                                    <div class="input_group">
+                                        <div class="form_div">
+                                            <input id="newName" class="form_input" type="text" v-model="newItem.name" placeholder=" ">
+                                            <label for="newName" class="form_label">Nom ..</label>
+                                        </div>
+                                        <div class="form_div">
+                                            <input id="newEmail" class="form_input" type="email" v-model="newItem.email" placeholder=" ">
+                                            <label for="newEmail" class="form_label">Email ..</label>
+                                        </div>
+                                        <div class="form_div">
+                                            <input id="newDevise" class="form_input" type="text" v-model="newItem.devise" placeholder=" ">
+                                            <label for="newDevise" class="form_label">Devise ..</label>
+                                        </div>
+                                        
+                                        <button @click="validateAndAddItem" class="btn btn-outline-info">Ajouter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+       
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
